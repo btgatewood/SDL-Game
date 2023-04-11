@@ -2,12 +2,7 @@
 
 #include <SDL.h>
 
-
-struct Vector2
-{
-	int x;
-	int y;
-};
+#include "Pong.h"
 
 
 class Game
@@ -27,9 +22,5 @@ private:
 	SDL_Renderer* renderer_;
 	bool quit_;
 
-	Vector2 player_pos_;
-	int player_dir_;
-
-	Vector2 ball_pos_;
-	Vector2 ball_vel_;
+	Pong pong_;
 };
