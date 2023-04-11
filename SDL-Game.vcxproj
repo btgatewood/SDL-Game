@@ -73,7 +73,7 @@
     <OutDir>$(SolutionDir)build\$(Platform)\$(Configuration)\</OutDir>
     <IncludePath>C:\Users\gatew\Projects\SDL-Game\external\SDL2\include;$(IncludePath)</IncludePath>
     <LibraryPath>C:\Users\gatew\Projects\SDL-Game\external\SDL2\lib\x64;$(LibraryPath)</LibraryPath>
-    <IntDir>$(SolutionDir)build\$(Platform)\$(Configuration)\obj</IntDir>
+    <IntDir>$(SolutionDir)build\$(Platform)\$(Configuration)\obj\</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>

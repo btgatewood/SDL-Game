@@ -8,12 +8,6 @@ const int SCREEN_WIDTH = 1024;  // 4:3 * 64?
 const int SCREEN_HEIGHT = 768;
 const int TILE_SIZE = 16;
 
-const int PLAYER_SPEED = 400;  // pixels per second
-const int PLAYER_HEIGHT = 100;
-
-const int BALL_SPEED_X = 600;
-const int BALL_SPEED_Y = 300;
-
 
 struct Vector2
 {

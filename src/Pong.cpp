@@ -1,6 +1,14 @@
 #include "Pong.h"
 
 
+// game settings
+const int PLAYER_HEIGHT = 100;
+const int PLAYER_SPEED = 400;  // pixels per second
+
+const int BALL_SPEED_X = 600;
+const int BALL_SPEED_Y = 300;
+
+
 Pong::Pong()
 {
     // NOTE: Positions are rect's top left corners.

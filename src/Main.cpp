@@ -1,6 +1,5 @@
 #include "Game.h"
 
-// TODO:  Separate engine code from game code.
 
 int main(int argc, char* argv[])
 {
