@@ -16,15 +16,6 @@ const int MAX_RENDERS_PER_SECOND = 240;
 const int MIN_MS_PER_RENDER = 1000 / MAX_RENDERS_PER_SECOND;
 
 
-Game::Game()
-    : window_(nullptr)
-    , renderer_(nullptr)
-    , quit_(false)
-{
-
-}
-
-
 bool Game::Init()
 {
     int result = SDL_Init(SDL_INIT_VIDEO);
@@ -44,9 +35,7 @@ bool Game::Init()
         }
         else
         {
-            // TODO: Enable vsync and test effects on framerate. // NOTE: Limits fps to 60.
-            // renderer_ = SDL_CreateRenderer(window_, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
-            renderer_ = SDL_CreateRenderer(window_, -1, SDL_RENDERER_ACCELERATED);
+            renderer_ = SDL_CreateRenderer(window_, -1, SDL_RENDERER_ACCELERATED);  // TODO: Enable vsync?
             if (!renderer_)
             {
                 SDL_Log("SDL_CreateRenderer() Error: %s", SDL_GetError());
@@ -55,7 +44,7 @@ bool Game::Init()
             else
             {
                 int flags = IMG_INIT_PNG;
-                int all_flags = IMG_Init(flags);  // init png support
+                int all_flags = IMG_Init(flags);  // load png support
                 if ((flags & all_flags) != flags)
                 {
                     SDL_Log("IMG_Init() Error: %s", IMG_GetError());
@@ -64,7 +53,7 @@ bool Game::Init()
                 else
                 {
                     // TODO: Log debug messages to file.
-                    std::cout << "Success! Engine initialized with png support.\n" << std::endl;
+                    std::cout << "Success! Engine initialized.\n" << std::endl;
                     
                     space_shooter_.LoadData(renderer_);
                 }
@@ -99,7 +88,7 @@ void Game::Run()
         update_timer += elapsed_time;
         while (update_timer >= MS_PER_UPDATE)
         {
-            Update(MS_PER_UPDATE / 1000.0f);  // convert dt to seconds, pass as float
+            Update(DELTA_TIME);  // convert dt to seconds, pass as float
             update_timer -= MS_PER_UPDATE;
             ++update_count;
         }
@@ -155,34 +144,32 @@ void Game::ProcessEvents()
         }
     }
 
-    // process and handle keyboard state
     const Uint8* key_states = SDL_GetKeyboardState(nullptr);
 
     if (key_states[SDL_SCANCODE_ESCAPE])
     {
         quit_ = true;
     }
-
-    // pong_.ProcessInput(key_states);
-    space_shooter_.ProcessInput(key_states);
+    else
+    {
+        // process keyboard input
+        space_shooter_.ProcessInput(key_states);
+    }
 }
 
 
 void Game::Update(float delta_time)
 {
-    // pong_.Update(delta_time);
     space_shooter_.Update(delta_time);
 }
 
 
 void Game::Render()
 {
-    SDL_SetRenderDrawColor(renderer_, 0, 0, 0, SDL_ALPHA_OPAQUE);  // NOTE: black is default color
+    // SDL_SetRenderDrawColor(renderer_, 0, 0, 0, SDL_ALPHA_OPAQUE);
     SDL_RenderClear(renderer_);  // clear back buffer to current draw color
 
-    // NOTE: Render the scene here!
-    // pong_.Render(renderer_);
-    space_shooter_.Render(renderer_);
+    space_shooter_.Render(renderer_);  // NOTE: Render the scene here!
 
     SDL_RenderPresent(renderer_);
 }

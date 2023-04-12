@@ -9,7 +9,6 @@
 class Game
 {
 public:
-	Game();
 	bool Init();
 	void Run();
 	void Quit();
@@ -19,9 +18,9 @@ private:
 	void Update(float delta_time);
 	void Render();
 
-	SDL_Window* window_;
-	SDL_Renderer* renderer_;
-	bool quit_;
+	SDL_Window* window_ = nullptr;
+	SDL_Renderer* renderer_ = nullptr;
+	bool quit_ = false;
 
 	// Pong pong_;
 	SpaceShooter space_shooter_;

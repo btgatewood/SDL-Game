@@ -3,6 +3,8 @@
 #include <SDL.h>
 
 
+// TODO: Set resolution based on user's hardware.
+
 // 16:9 * 64 == 1024x576
 // 4:3 * 256 == 1024x768
 
@@ -15,9 +17,9 @@
 // 1080x1920 / 3 == 360x640
 
 // NOTE: 1920x1080 / 2 == 16:9 * 60 == 960x540
+
 const int SCREEN_WIDTH = 960;
 const int SCREEN_HEIGHT = 540;
-// TODO: Set resolution based on user's hardware.
 
 
 class SpaceShooter
@@ -31,20 +33,12 @@ public:
 	void Render(SDL_Renderer* renderer);
 
 
-	SpaceShooter()
-		: background_(nullptr)
-		, stars_(nullptr)
-		, planets_(nullptr)
-		, meteors_(nullptr)
-		, dstrect_()
-	{}
-
 private:
-	// background layer textures
-	SDL_Texture* background_;
-	SDL_Texture* stars_;
-	SDL_Texture* planets_;
-	SDL_Texture* meteors_;
+	SDL_Texture* background_ = nullptr;
+	SDL_Texture* stars_ = nullptr;
+	SDL_Texture* planets_ = nullptr;
+	SDL_Texture* meteors_ = nullptr;
 
-	SDL_Rect dstrect_;
+	SDL_Rect dstrect_ = { 0, 0, 0, 0 };
+	float y_pos_ = 0.0f;
 };
