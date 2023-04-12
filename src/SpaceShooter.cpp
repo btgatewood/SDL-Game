@@ -1,111 +1,107 @@
 #include <cmath>
 #include <iostream>
-#include <string>
-#include <vector>
 
 #include <SDL_image.h>
 
 #include "SpaceShooter.h"
 
 
-//  TODO:  Implement resource management system.
-SDL_Texture* load_texture(SDL_Renderer* renderer, std::string file)
+SDL_Texture* SpaceShooter::GetTexture(const std::string& file)
+// Creates a texture if it has not already been loaded and 
+// saves a ptr so we can delete it later.
 {
-	SDL_Surface* surface = IMG_Load(file.c_str());
-	if (!surface)
-	{
-		SDL_Log("IMG_Load() Error: %s", IMG_GetError());
-		return nullptr;
-	}
-	
-	SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surface);
-	if (!texture)
-	{
-		SDL_Log("SDL_CreateTextureFromSurface(%s) Error: %s", file.c_str(), SDL_GetError());
-		return nullptr;
-	}
+	SDL_Texture* texture = nullptr;
 
-	SDL_FreeSurface(surface);
+	auto iter = textures_.find(file);
+	if (iter != textures_.end())
+	{
+		texture = iter->second;
+	}
+	else
+	{
+		// load the image and create the texture
+		SDL_Surface* surface = IMG_Load(file.c_str());
+		if (!surface)
+		{
+			SDL_Log("IMG_Load() Error: %s", IMG_GetError());
+			return nullptr;
+		}
+
+		texture = SDL_CreateTextureFromSurface(renderer_, surface);
+		SDL_FreeSurface(surface);  // release the surface object
+		if (!texture)
+		{
+			SDL_Log("SDL_CreateTextureFromSurface(%s) Error: %s", file.c_str(), SDL_GetError());
+			return nullptr;
+		}
+		else
+		{
+			// textures_.emplace(file, texture);
+			textures_.insert({ file, texture });  // add texture to map
+		}
+	}
 
 	return texture;
 }
 
 
-const int BG_WIDTH = 1080;
-const int BG_HEIGHT = 1920;
-
-const int BG_SPEED = 240;  // pixels per second
-
-
 void SpaceShooter::LoadData(SDL_Renderer* renderer)
 {
-	// set initial background position
-	int x = -(BG_WIDTH - SCREEN_WIDTH) / 2;  // -(1080 - 960) / 2 = -60
-	int y = -(BG_HEIGHT - SCREEN_HEIGHT);    // -(1920 - 540) = -1380
-	dstrect_ = SDL_Rect{ x, y, BG_WIDTH, BG_HEIGHT };
-	y_pos_ = y;
+	// save ptr to engine's renderer object
+	renderer_ = renderer;
 
-	// load the background layer textures
-	background_ = load_texture(renderer, "data/Space_BG_01/Layers/BG.png");
-	stars_ = load_texture(renderer, "data/Space_BG_01/Layers/Stars.png");
-	planets_ = load_texture(renderer, "data/Space_BG_01/Layers/Planets.png");
-	meteors_ = load_texture(renderer, "data/Space_BG_01/Layers/Meteors.png");
-	if (!background_ || !stars_ || !planets_ || !meteors_)
+	// load textures
+	std::vector<SDL_Texture*> layers = {
+		GetTexture("data/Space_BG_01/Layers/BG.png"),
+		GetTexture("data/Space_BG_01/Layers/Stars.png"),
+		GetTexture("data/Space_BG_01/Layers/Planets.png"),
+		GetTexture("data/Space_BG_01/Layers/Meteors.png")
+	};
+
+	// calculate initial position
+	float x = -(1080 - SCREEN_WIDTH) / 2.0f;  // -(bg_width - 960) / 2 = -60
+	float y = -(1920 - SCREEN_HEIGHT);		  // -(bg_height - 540) = -1380
+	Vector2 position{ x, y };
+
+	// create background sprites
+	for (int i = 0; i < layers.size(); ++i)
 	{
-		// TODO: Better error handling...
-		std::cout << "Error: Failed to load background layers!" << std::endl;
+		BackgroundSprite sprite;
+
+		sprite.SetTexture(layers[i]);
+		sprite.SetPosition(position);
+
+		sprite.SetScrollSpeed(60.0f * (i + 1) * 2);  // 120, 240, 360, 480
+		sprite.SetScreenHeight(SCREEN_HEIGHT);
+
+		sprites_.push_back(sprite);  // add sprite to list
 	}
-
-	// get background width and height
-	// SDL_QueryTexture(background_, nullptr, nullptr, &width_, &height_);
-
-	// TODO:  Create BackgroundSprite instances!!!
-	// std::vector...
 }
 
-
-void SpaceShooter::ProcessInput(const Uint8* key_states)
-{
-
-}
 
 void SpaceShooter::Update(float delta_time)
 {
-	// scroll the background
-	y_pos_ += BG_SPEED * delta_time;
-	dstrect_.y = std::round(y_pos_);  // avoid loss of fractional data
-
-	// reset position if the background moves off screen
-	if (y_pos_ > SCREEN_HEIGHT)
+	for (BackgroundSprite& sprite : sprites_)
 	{
-		y_pos_ = -(BG_HEIGHT - SCREEN_HEIGHT);
-		dstrect_.y = std::round(y_pos_);
+		sprite.Update(delta_time);
 	}
 }
 
 
 void SpaceShooter::Render(SDL_Renderer* renderer)
 {
-	SDL_RenderCopy(renderer, background_, nullptr, &dstrect_);
-	SDL_RenderCopy(renderer, stars_, nullptr, &dstrect_);
-	SDL_RenderCopy(renderer, planets_, nullptr, &dstrect_);
-	SDL_RenderCopy(renderer, meteors_, nullptr, &dstrect_);
-
-	// tile background by drawing offset textures
-	SDL_Rect offset = dstrect_;
-	offset.y -= BG_HEIGHT;
-
-	SDL_RenderCopy(renderer, background_, nullptr, &offset);
-	SDL_RenderCopy(renderer, stars_, nullptr, &offset);
-	SDL_RenderCopy(renderer, planets_, nullptr, &offset);
-	SDL_RenderCopy(renderer, meteors_, nullptr, &offset);
+	for (BackgroundSprite& sprite : sprites_)
+	{
+		sprite.Draw(renderer_);  // NOTE: Passing class member, not function param.
+	}
 }
 
 
 void SpaceShooter::Quit()
 {
-	SDL_DestroyTexture(meteors_);
-	SDL_DestroyTexture(planets_);
-	SDL_DestroyTexture(stars_);
-	SDL_DestroyTexture(background_);
+	// destroy textures in texture map
+	for (auto& i : textures_)
+	{
+		SDL_DestroyTexture(i.second);
+	}
 }

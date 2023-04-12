@@ -1,9 +1,13 @@
 #pragma once
 
+#include <string>
+#include <unordered_map>
+#include <vector>
+
 #include <SDL.h>
 
+#include "GameObjects.h"
 
-// TODO: Set resolution based on user's hardware.
 
 // 16:9 * 64 == 1024x576
 // 4:3 * 256 == 1024x768
@@ -28,17 +32,15 @@ public:
 	void LoadData(SDL_Renderer* renderer);
 	void Quit();
 
-	void ProcessInput(const Uint8* key_states);
+	void ProcessInput(const Uint8* key_states) {}
 	void Update(float delta_time);
 	void Render(SDL_Renderer* renderer);
 
-
 private:
-	SDL_Texture* background_ = nullptr;
-	SDL_Texture* stars_ = nullptr;
-	SDL_Texture* planets_ = nullptr;
-	SDL_Texture* meteors_ = nullptr;
+	SDL_Texture* GetTexture(const std::string& file);
 
-	SDL_Rect dstrect_ = { 0, 0, 0, 0 };
-	float y_pos_ = 0.0f;
+	SDL_Renderer* renderer_ = nullptr;  // ptr to engine's renderer
+
+	std::unordered_map<std::string, SDL_Texture*> textures_;
+	std::vector<BackgroundSprite> sprites_;
 };

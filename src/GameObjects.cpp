@@ -6,18 +6,29 @@
 void BackgroundSprite::SetTexture(SDL_Texture* texture)
 {
 	texture_ = texture;
-	SDL_QueryTexture(texture_, nullptr, nullptr, nullptr, &tex_height_);  // save texture height
+
+	// save texture width & height
+	SDL_QueryTexture(texture_, nullptr, nullptr, &width_, &height_);
 }
 
+void BackgroundSprite::SetPosition(const Vector2& pos)
+{
+	position_ = pos;
+
+	// set destination rect before rendering
+	dest_rect_ = SDL_Rect{ 
+		static_cast<int>(position_.x), static_cast<int>(position_.y), 
+		width_, height_ 
+	};
+}
 
 void BackgroundSprite::Update(float delta_time)
 {
-	// scroll the background
-	position_.y += scroll_speed_ * delta_time;
+	position_.y += scroll_speed_ * delta_time;  // scroll the background
 
-	if (position_.y > screen_size_.y)
+	if (position_.y > screen_height_)
 	{
-		position_.y = -(tex_height_ - screen_size_.y);  // return to top
+		position_.y = -(height_ - screen_height_);  // return to top
 	}
 
 	dest_rect_.y = std::round(position_.y);  // avoid loss of fractional data
@@ -30,7 +41,7 @@ void BackgroundSprite::Draw(SDL_Renderer* renderer)
 
 	// draw offset texture to get infinite scrolling
 	SDL_Rect offset_rect = dest_rect_;
-	offset_rect.y -= tex_height_;
+	offset_rect.y -= height_;
 
 	SDL_RenderCopy(renderer, texture_, nullptr, &offset_rect);
 }
