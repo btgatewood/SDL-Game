@@ -10,7 +10,7 @@
 const int UPDATES_PER_SECOND = 60;
 const int MS_PER_UPDATE = 1000 / UPDATES_PER_SECOND;
 
-const float DELTA_TIME = MS_PER_UPDATE / 1000.0f;  // == 0.016f @ 60 Hz
+const float DELTA_TIME = MS_PER_UPDATE / 1000.0f;  // == 0.016f @ 60Hz
 
 const int MAX_RENDERS_PER_SECOND = 240;
 const int MIN_MS_PER_RENDER = 1000 / MAX_RENDERS_PER_SECOND;
@@ -63,8 +63,9 @@ bool Game::Init()
                 }
                 else
                 {
+                    // TODO: Log debug messages to file.
                     std::cout << "Success! Engine initialized with png support.\n" << std::endl;
-
+                    
                     space_shooter_.LoadData(renderer_);
                 }
             }
