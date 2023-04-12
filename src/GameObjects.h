@@ -16,9 +16,7 @@ struct Vector2
 	float y;
 };
 
-
 // TODO: Create AnimatedSprite and Player (Ship) classes.
-
 
 class BackgroundSprite
 {

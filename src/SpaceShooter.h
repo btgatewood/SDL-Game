@@ -43,4 +43,7 @@ private:
 
 	std::unordered_map<std::string, SDL_Texture*> textures_;
 	std::vector<BackgroundSprite> sprites_;
+
+	SDL_Texture* ship_texture_ = nullptr;
+	std::vector<SDL_Texture*> ship_textures_;
 };
