@@ -37,7 +37,7 @@ void Pong::ProcessInput(const Uint8* key_states)
 }
 
 
-void Pong::Update(double delta_time)
+void Pong::Update(float delta_time)
 {
     // move player
     if (player_dir_ != 0)

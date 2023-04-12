@@ -2,7 +2,8 @@
 
 #include <SDL.h>
 
-#include "Pong.h"
+// #include "Pong.h"
+#include "SpaceShooter.h"
 
 
 class Game
@@ -15,12 +16,13 @@ public:
 
 private:
 	void ProcessEvents();
-	void Update(double delta_time);
+	void Update(float delta_time);
 	void Render();
 
 	SDL_Window* window_;
 	SDL_Renderer* renderer_;
 	bool quit_;
 
-	Pong pong_;
+	// Pong pong_;
+	SpaceShooter space_shooter_;
 };

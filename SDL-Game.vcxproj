@@ -71,8 +71,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>$(SolutionDir)build\$(Platform)\$(Configuration)\</OutDir>
-    <IncludePath>C:\Users\gatew\Projects\SDL-Game\external\SDL2\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Users\gatew\Projects\SDL-Game\external\SDL2\lib\x64;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\Users\gatew\Projects\SDL-Game\external\SDL2_image\include;C:\Users\gatew\Projects\SDL-Game\external\SDL2\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Users\gatew\Projects\SDL-Game\external\SDL2_image\lib\x64;C:\Users\gatew\Projects\SDL-Game\external\SDL2\lib\x64;$(LibraryPath)</LibraryPath>
     <IntDir>$(SolutionDir)build\$(Platform)\$(Configuration)\obj\</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -106,18 +106,22 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <Link>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <SubSystem>Windows</SubSystem>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <SubSystem>Console</SubSystem>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\Game.cpp" />
+    <ClCompile Include="src\GameObjects.cpp" />
     <ClCompile Include="src\Main.cpp" />
     <ClCompile Include="src\Pong.cpp" />
+    <ClCompile Include="src\SpaceShooter.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Pong.h" />
     <ClInclude Include="src\Game.h" />
+    <ClInclude Include="src\GameObjects.h" />
+    <ClInclude Include="src\Pong.h" />
+    <ClInclude Include="src\SpaceShooter.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

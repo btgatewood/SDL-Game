@@ -1,4 +1,7 @@
+#include <iostream>
 #include <sstream>
+
+#include <SDL_image.h>
 
 #include "Game.h"
 
@@ -7,7 +10,7 @@
 const int UPDATES_PER_SECOND = 60;
 const int MS_PER_UPDATE = 1000 / UPDATES_PER_SECOND;
 
-const double DELTA_TIME = MS_PER_UPDATE / 1000.0;  // 0.016 @ 60 UPS
+const float DELTA_TIME = MS_PER_UPDATE / 1000.0f;  // == 0.016f @ 60 Hz
 
 const int MAX_RENDERS_PER_SECOND = 240;
 const int MIN_MS_PER_RENDER = 1000 / MAX_RENDERS_PER_SECOND;
@@ -18,6 +21,7 @@ Game::Game()
     , renderer_(nullptr)
     , quit_(false)
 {
+
 }
 
 
@@ -40,13 +44,29 @@ bool Game::Init()
         }
         else
         {
-            // TODO: Enable vsync and test effects on framerate.  // NOTE: Limits fps to 60.
+            // TODO: Enable vsync and test effects on framerate. // NOTE: Limits fps to 60.
             // renderer_ = SDL_CreateRenderer(window_, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
             renderer_ = SDL_CreateRenderer(window_, -1, SDL_RENDERER_ACCELERATED);
             if (!renderer_)
             {
                 SDL_Log("SDL_CreateRenderer() Error: %s", SDL_GetError());
                 return false;
+            }
+            else
+            {
+                int flags = IMG_INIT_PNG;
+                int all_flags = IMG_Init(flags);  // init png support
+                if ((flags & all_flags) != flags)
+                {
+                    SDL_Log("IMG_Init() Error: %s", IMG_GetError());
+                    return false;
+                }
+                else
+                {
+                    std::cout << "Success! Engine initialized with png support." << std::endl;
+
+                    space_shooter_.LoadData(renderer_);
+                }
             }
         }
     }
@@ -78,7 +98,7 @@ void Game::Run()
         update_timer += elapsed_time;
         while (update_timer >= MS_PER_UPDATE)
         {
-            Update(MS_PER_UPDATE / 1000.0);  // convert dt to seconds, pass as double value
+            Update(MS_PER_UPDATE / 1000.0f);  // convert dt to seconds, pass as float
             update_timer -= MS_PER_UPDATE;
             ++update_count;
         }
@@ -114,6 +134,9 @@ void Game::Run()
 
 void Game::Quit()
 {
+    space_shooter_.Quit();
+
+    IMG_Quit();
     SDL_DestroyRenderer(renderer_);
     SDL_DestroyWindow(window_);
     SDL_Quit();
@@ -139,22 +162,26 @@ void Game::ProcessEvents()
         quit_ = true;
     }
 
-    pong_.ProcessInput(key_states);
+    // pong_.ProcessInput(key_states);
+    space_shooter_.ProcessInput(key_states);
 }
 
 
-void Game::Update(double delta_time)
+void Game::Update(float delta_time)
 {
-    pong_.Update(delta_time);
+    // pong_.Update(delta_time);
+    space_shooter_.Update(delta_time);
 }
 
 
 void Game::Render()
 {
-    SDL_SetRenderDrawColor(renderer_, 0, 0, 0, SDL_ALPHA_OPAQUE);
+    SDL_SetRenderDrawColor(renderer_, 0, 0, 0, SDL_ALPHA_OPAQUE);  // NOTE: black is default color
     SDL_RenderClear(renderer_);  // clear back buffer to current draw color
 
-    pong_.Render(renderer_);  // NOTE: Render the scene here!
+    // NOTE: Render the scene here!
+    // pong_.Render(renderer_);
+    space_shooter_.Render(renderer_);
 
     SDL_RenderPresent(renderer_);
 }

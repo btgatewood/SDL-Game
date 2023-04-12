@@ -21,7 +21,7 @@ class Pong
 public:
 	Pong();
 	void ProcessInput(const Uint8* key_states);
-	void Update(double delta_time);
+	void Update(float delta_time);
 	void Render(SDL_Renderer* renderer);
 
 private:
