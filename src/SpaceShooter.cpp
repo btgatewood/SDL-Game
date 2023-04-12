@@ -50,7 +50,7 @@ void SpaceShooter::LoadData(SDL_Renderer* renderer)
 	// save ptr to engine's renderer object
 	renderer_ = renderer;
 
-	// load textures
+	// load background textures
 	std::vector<SDL_Texture*> layers = {
 		GetTexture("data/Space_BG_01/Layers/BG.png"),
 		GetTexture("data/Space_BG_01/Layers/Stars.png"),
@@ -58,7 +58,7 @@ void SpaceShooter::LoadData(SDL_Renderer* renderer)
 		GetTexture("data/Space_BG_01/Layers/Meteors.png")
 	};
 
-	// calculate initial position
+	// calculate initial background position
 	float x = -(1080 - SCREEN_WIDTH) / 2.0f;  // -(bg_width - 960) / 2 = -60
 	float y = -(1920 - SCREEN_HEIGHT);		  // -(bg_height - 540) = -1380
 	Vector2 position{ x, y };

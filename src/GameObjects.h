@@ -17,6 +17,9 @@ struct Vector2
 };
 
 
+// TODO: Create AnimatedSprite and Player (Ship) classes.
+
+
 class BackgroundSprite
 {
 public:
