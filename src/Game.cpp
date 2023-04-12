@@ -63,7 +63,7 @@ bool Game::Init()
                 }
                 else
                 {
-                    std::cout << "Success! Engine initialized with png support." << std::endl;
+                    std::cout << "Success! Engine initialized with png support.\n" << std::endl;
 
                     space_shooter_.LoadData(renderer_);
                 }
