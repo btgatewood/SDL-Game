@@ -25,41 +25,33 @@ bool Game::Init()
         SDL_Log("SDL_Init() Error: %s", SDL_GetError());
         return false;
     }
-    else
+
+    window_ = SDL_CreateWindow("SDL Game", 100, 100, SCREEN_WIDTH, SCREEN_HEIGHT, 0);
+    if (!window_)
     {
-        window_ = SDL_CreateWindow("SDL Game", 100, 100, SCREEN_WIDTH, SCREEN_HEIGHT, 0);
-        if (!window_)
-        {
-            SDL_Log("SDL_CreateWindow() Error: %s", SDL_GetError());
-            return false;
-        }
-        else
-        {
-            renderer_ = SDL_CreateRenderer(window_, -1, SDL_RENDERER_ACCELERATED);  // TODO: Enable vsync?
-            if (!renderer_)
-            {
-                SDL_Log("SDL_CreateRenderer() Error: %s", SDL_GetError());
-                return false;
-            }
-            else
-            {
-                int flags = IMG_INIT_PNG;
-                int all_flags = IMG_Init(flags);  // load png support
-                if ((flags & all_flags) != flags)
-                {
-                    SDL_Log("IMG_Init() Error: %s", IMG_GetError());
-                    return false;
-                }
-                else
-                {
-                    // TODO: Log debug messages to file.
-                    std::cout << "Success! Engine initialized.\n" << std::endl;
-                    
-                    space_shooter_.LoadData(renderer_);
-                }
-            }
-        }
+        SDL_Log("SDL_CreateWindow() Error: %s", SDL_GetError());
+        return false;
     }
+        
+    renderer_ = SDL_CreateRenderer(window_, -1, SDL_RENDERER_ACCELERATED);  // TODO: Enable vsync?
+    if (!renderer_)
+    {
+        SDL_Log("SDL_CreateRenderer() Error: %s", SDL_GetError());
+        return false;
+    }
+
+    int flags = IMG_INIT_PNG;
+    int all_flags = IMG_Init(flags);  // load png support
+    if ((flags & all_flags) != flags)
+    {
+        SDL_Log("IMG_Init() Error: %s", IMG_GetError());
+        return false;
+    }
+
+    // TODO: Log debug messages to file.
+    std::cout << "Success! Engine initialized.\n" << std::endl;
+                    
+    space_shooter_.LoadData(renderer_);
 
     return true;
 }

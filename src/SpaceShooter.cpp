@@ -1,16 +1,11 @@
 #include <cmath>
 #include <iostream>
 #include <string>
+#include <vector>
 
 #include <SDL_image.h>
 
 #include "SpaceShooter.h"
-
-
-const int BG_WIDTH = 1080;
-const int BG_HEIGHT = 1920;
-
-const int BG_SPEED = 240;  // pixels per second
 
 
 //  TODO:  Implement resource management system.
@@ -36,8 +31,20 @@ SDL_Texture* load_texture(SDL_Renderer* renderer, std::string file)
 }
 
 
+const int BG_WIDTH = 1080;
+const int BG_HEIGHT = 1920;
+
+const int BG_SPEED = 240;  // pixels per second
+
+
 void SpaceShooter::LoadData(SDL_Renderer* renderer)
 {
+	// set initial background position
+	int x = -(BG_WIDTH - SCREEN_WIDTH) / 2;  // -(1080 - 960) / 2 = -60
+	int y = -(BG_HEIGHT - SCREEN_HEIGHT);    // -(1920 - 540) = -1380
+	dstrect_ = SDL_Rect{ x, y, BG_WIDTH, BG_HEIGHT };
+	y_pos_ = y;
+
 	// load the background layer textures
 	background_ = load_texture(renderer, "data/Space_BG_01/Layers/BG.png");
 	stars_ = load_texture(renderer, "data/Space_BG_01/Layers/Stars.png");
@@ -52,11 +59,8 @@ void SpaceShooter::LoadData(SDL_Renderer* renderer)
 	// get background width and height
 	// SDL_QueryTexture(background_, nullptr, nullptr, &width_, &height_);
 
-	// set initial background position
-	int x = -(BG_WIDTH - SCREEN_WIDTH) / 2;  // -(1080 - 960) / 2 = -60
-	int y = -(BG_HEIGHT - SCREEN_HEIGHT);    // -(1920 - 540) = -1380
-	dstrect_ = SDL_Rect{ x, y, BG_WIDTH, BG_HEIGHT };
-	y_pos_ = y;
+	// TODO:  Create BackgroundSprite instances!!!
+	// std::vector...
 }
 
 
