@@ -42,8 +42,7 @@ private:
 	SDL_Renderer* renderer_ = nullptr;  // ptr to engine's renderer
 
 	std::unordered_map<std::string, SDL_Texture*> textures_;
-	std::vector<BackgroundSprite> sprites_;
+	std::vector<BackgroundSprite> bg_sprites_;
 
-	SDL_Texture* ship_texture_ = nullptr;
 	std::vector<SDL_Texture*> ship_textures_;
 };

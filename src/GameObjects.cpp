@@ -3,6 +3,37 @@
 #include "GameObjects.h"
 
 
+/* -------------------------------------------------------------------------- */
+void Sprite::SetTexture(SDL_Texture* texture)
+{
+	texture_ = texture;
+	// set width & height
+	SDL_QueryTexture(texture, nullptr, nullptr, &tex_width_, &tex_width_);
+}
+
+void Sprite::Draw(SDL_Renderer* renderer)
+{
+	SDL_Rect r;
+
+	// w = int(tex_w * scale)
+	// h = int(tex_h * scale)
+
+	// x = int(pos.x - (w / 2))
+	// y = int(pos.y - (h / 2))
+
+}
+
+
+/* -------------------------------------------------------------------------- */
+void AnimatedSprite::SetAnimTextures(const std::vector<SDL_Texture*>& textures)
+{
+	anim_textures_ = textures;
+	current_frame_ = 0.0f;
+	SetTexture(anim_textures_[0]);
+}
+
+
+/* -------------------------------------------------------------------------- */
 void BackgroundSprite::SetTexture(SDL_Texture* texture)
 {
 	texture_ = texture;
@@ -33,7 +64,6 @@ void BackgroundSprite::Update(float delta_time)
 
 	dest_rect_.y = std::round(position_.y);  // avoid loss of fractional data
 }
-
 
 void BackgroundSprite::Draw(SDL_Renderer* renderer)
 {
