@@ -85,8 +85,11 @@ void SpaceShooter::LoadData(SDL_Renderer* renderer)
 		ship_textures_.push_back(GetTexture(oss.str()));  // using GetTexture(filename) to ensure deletion
 	}
 
-	PlayerShip player;
-	player.SetAnimTextures(ship_textures_);
+	// TODO:  Init player ship.
+	// PlayerShip player_;
+	player_.SetAnimTextures(ship_textures_);
+	// TODO: Set position to center screen.
+	player_.SetPosition(Vector2{ SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 });
 }
 
 
@@ -112,10 +115,14 @@ void SpaceShooter::Render(SDL_Renderer* renderer)  // TODO: Remove renderer para
 	}
 
 	// scale ship texture and draw at screen center
-	SDL_Rect dstrect = { SCREEN_WIDTH / 2 - SHIP_WIDTH / 16, 
-						 SCREEN_HEIGHT / 2 - SHIP_HEIGHT / 16, 
-						 SHIP_WIDTH / 8, SHIP_HEIGHT / 8 };  // center the ship!?
+	//SDL_Rect dstrect = { SCREEN_WIDTH / 2 - SHIP_WIDTH / 16, 
+	//					 SCREEN_HEIGHT / 2 - SHIP_HEIGHT / 16, 
+	//					 SHIP_WIDTH / 8, SHIP_HEIGHT / 8 };  // center the ship!?
+	SDL_Rect dstrect = { 0, 0, SHIP_WIDTH / 8, SHIP_HEIGHT / 8 };
 	SDL_RenderCopy(renderer_, ship_textures_[0], nullptr, &dstrect);
+
+	// TODO: Draw ship (player).
+	player_.Draw(renderer_);
 }
 
 

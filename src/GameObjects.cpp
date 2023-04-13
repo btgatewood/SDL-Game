@@ -21,6 +21,8 @@ void Sprite::Draw(SDL_Renderer* renderer)
 	// x = int(pos.x - (w / 2))
 	// y = int(pos.y - (h / 2))
 
+	// TODO:  This is the next step...
+	// SDL_RenderCopy()....
 }
 
 

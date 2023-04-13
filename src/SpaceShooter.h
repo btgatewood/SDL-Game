@@ -45,4 +45,6 @@ private:
 	std::vector<BackgroundSprite> bg_sprites_;
 
 	std::vector<SDL_Texture*> ship_textures_;
+
+	AnimatedSprite player_;
 };

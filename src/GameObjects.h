@@ -21,6 +21,9 @@ struct Vector2
 
 class Actor
 {
+public:
+	void SetPosition(const Vector2& pos) { position_ = pos; }
+
 protected:
 	Vector2 position_ = { 0.0f, 0.0f };
 	float scale_ = 0.0f;
@@ -28,7 +31,7 @@ protected:
 };
 
 
-class Sprite : Actor
+class Sprite : public Actor
 {
 public:
 	void SetTexture(SDL_Texture* texture);
@@ -41,7 +44,7 @@ protected:
 };
 
 
-class AnimatedSprite : Sprite
+class AnimatedSprite : public Sprite
 {
 public:
 	void SetAnimTextures(const std::vector<SDL_Texture*>& textures);
