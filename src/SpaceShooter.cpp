@@ -9,7 +9,7 @@
 
 SDL_Texture* SpaceShooter::GetTexture(const std::string& file)
 // Creates a texture if it has not already been loaded and 
-// saves a ptr so we can delete it later.
+// saves a ptr so we can destroy it later.
 {
 	SDL_Texture* texture = nullptr;
 
@@ -47,8 +47,7 @@ SDL_Texture* SpaceShooter::GetTexture(const std::string& file)
 
 void SpaceShooter::LoadData(SDL_Renderer* renderer)
 {
-	// save ptr to engine's renderer object
-	renderer_ = renderer;
+	renderer_ = renderer;  // save ptr to engine's renderer object
 
 	// load background textures
 	std::vector<SDL_Texture*> layers = {
@@ -77,7 +76,7 @@ void SpaceShooter::LoadData(SDL_Renderer* renderer)
 		bg_sprites_.push_back(sprite);  // add sprite to list
 	}
 
-	// TODO: Load ship textures, create ship sprite.
+	// load ship textures
 	for (int i = 0; i < 10; ++i)
 	{
 		std::ostringstream oss;
@@ -85,11 +84,10 @@ void SpaceShooter::LoadData(SDL_Renderer* renderer)
 		ship_textures_.push_back(GetTexture(oss.str()));  // using GetTexture(filename) to ensure deletion
 	}
 
-	// TODO:  Init player ship.
-	// PlayerShip player_;
+	// init player ship
 	player_.SetAnimTextures(ship_textures_);
-	// TODO: Set position to center screen.
 	player_.SetPosition(Vector2{ SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 });
+	player_.SetScale(1.0f / 8.0f);  // TODO: Use this, check math.
 }
 
 
@@ -100,28 +98,17 @@ void SpaceShooter::Update(float delta_time)
 		sprite.Update(delta_time);
 	}
 
-	// TODO: Animate ship.
+	player_.Update(delta_time);  // TODO: Animate ship.
 }
 
 
-const int SHIP_WIDTH = 1063;
-const int SHIP_HEIGHT = 1192;
-
 void SpaceShooter::Render(SDL_Renderer* renderer)  // TODO: Remove renderer param?
 {
-	for (BackgroundSprite& sprite : bg_sprites_)
+	for (BackgroundSprite& bg_sprite : bg_sprites_)
 	{
-		sprite.Draw(renderer_);  // NOTE: Passing class member, not method arg.
+		bg_sprite.Draw(renderer_);  // NOTE: Passing class member, not method arg.
 	}
 
-	// scale ship texture and draw at screen center
-	//SDL_Rect dstrect = { SCREEN_WIDTH / 2 - SHIP_WIDTH / 16, 
-	//					 SCREEN_HEIGHT / 2 - SHIP_HEIGHT / 16, 
-	//					 SHIP_WIDTH / 8, SHIP_HEIGHT / 8 };  // center the ship!?
-	SDL_Rect dstrect = { 0, 0, SHIP_WIDTH / 8, SHIP_HEIGHT / 8 };
-	SDL_RenderCopy(renderer_, ship_textures_[0], nullptr, &dstrect);
-
-	// TODO: Draw ship (player).
 	player_.Draw(renderer_);
 }
 

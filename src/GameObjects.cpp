@@ -1,4 +1,5 @@
 #include <cmath>
+#include <iostream>
 
 #include "GameObjects.h"
 
@@ -7,22 +8,21 @@
 void Sprite::SetTexture(SDL_Texture* texture)
 {
 	texture_ = texture;
-	// set width & height
-	SDL_QueryTexture(texture, nullptr, nullptr, &tex_width_, &tex_width_);
+	SDL_QueryTexture(texture, nullptr, nullptr, &tex_width_, &tex_height_);
 }
 
 void Sprite::Draw(SDL_Renderer* renderer)
 {
 	SDL_Rect r;
+	// calc width & height based on texture size & scale
+	r.w = static_cast<int>(tex_width_ * scale_);
+	r.h = static_cast<int>(tex_height_ * scale_);
 
-	// w = int(tex_w * scale)
-	// h = int(tex_h * scale)
+	// set position to top left corner using center pos & 1/2 width/height
+	r.x = static_cast<int>(position_.x - r.w / 2);
+	r.y = static_cast<int>(position_.y - r.h / 2);
 
-	// x = int(pos.x - (w / 2))
-	// y = int(pos.y - (h / 2))
-
-	// TODO:  This is the next step...
-	// SDL_RenderCopy()....
+	SDL_RenderCopy(renderer, texture_, nullptr, &r);
 }
 
 
@@ -40,8 +40,8 @@ void BackgroundSprite::SetTexture(SDL_Texture* texture)
 {
 	texture_ = texture;
 
-	// save texture width & height
-	SDL_QueryTexture(texture_, nullptr, nullptr, &width_, &height_);
+	// store texture width & height
+	SDL_QueryTexture(texture_, nullptr, nullptr, &tex_width_, &tex_height_);
 }
 
 void BackgroundSprite::SetPosition(const Vector2& pos)
@@ -51,7 +51,7 @@ void BackgroundSprite::SetPosition(const Vector2& pos)
 	// set destination rect before rendering
 	dest_rect_ = SDL_Rect{ 
 		static_cast<int>(position_.x), static_cast<int>(position_.y), 
-		width_, height_ 
+		tex_width_, tex_height_ 
 	};
 }
 
@@ -61,7 +61,7 @@ void BackgroundSprite::Update(float delta_time)
 
 	if (position_.y > screen_height_)
 	{
-		position_.y = -(height_ - screen_height_);  // return to top
+		position_.y = -(tex_height_ - screen_height_);  // return to top
 	}
 
 	dest_rect_.y = std::round(position_.y);  // avoid loss of fractional data
@@ -73,7 +73,7 @@ void BackgroundSprite::Draw(SDL_Renderer* renderer)
 
 	// draw offset texture to get infinite scrolling
 	SDL_Rect offset_rect = dest_rect_;
-	offset_rect.y -= height_;
+	offset_rect.y -= tex_height_;
 
 	SDL_RenderCopy(renderer, texture_, nullptr, &offset_rect);
 }
