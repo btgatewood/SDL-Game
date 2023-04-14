@@ -40,8 +40,9 @@ class AnimatedSprite : public Sprite
 {
 public:
 	void SetAnimTextures(const std::vector<SDL_Texture*>& textures);
+	void SetAnimFPS(float fps) { anim_fps_ = fps; }
 
-	void Update(float delta_time) {}
+	void Update(float delta_time);
 
 protected:
 	std::vector<SDL_Texture*> anim_textures_;
@@ -71,10 +72,8 @@ private:
 	int tex_width_ = 0;
 	int tex_height_ = 0;
 
-	// TODO: Set position to store sprite's center.
-	Vector2 position_ = { 0.0f, 0.0f };
-	// TODO: Calc rect in draw method.
-	SDL_Rect dest_rect_ = { 0, 0, 0, 0 };
+	Vector2 position_ = { 0.0f, 0.0f };  // TODO: Set pos to sprite's center.
+	SDL_Rect dest_rect_ = { 0, 0, 0, 0 };  // TODO: Calc rect in draw method.
 
 	float scroll_speed_ = 0.0f;
 	int screen_height_ = 0;

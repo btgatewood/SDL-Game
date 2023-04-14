@@ -66,13 +66,10 @@ void SpaceShooter::LoadData(SDL_Renderer* renderer)
 	for (int i = 0; i < layers.size(); ++i)
 	{
 		BackgroundSprite sprite;
-
 		sprite.SetTexture(layers[i]);
-		sprite.SetPosition(position);
-
+		sprite.SetPosition(position);  // TODO: Vector2{ SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 }
 		sprite.SetScrollSpeed(60.0f * (i + 1) * 2);  // 120, 240, 360, 480
 		sprite.SetScreenHeight(SCREEN_HEIGHT);
-
 		bg_sprites_.push_back(sprite);  // add sprite to list
 	}
 
@@ -86,6 +83,7 @@ void SpaceShooter::LoadData(SDL_Renderer* renderer)
 
 	// init player ship
 	player_.SetAnimTextures(ship_textures_);
+	player_.SetAnimFPS(10.0f);  // TODO: Double check this.  Tests, tests, tests.
 	player_.SetPosition(Vector2{ SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 });
 	player_.SetScale(1.0f / 8.0f);  // TODO: Use this, check math.
 }

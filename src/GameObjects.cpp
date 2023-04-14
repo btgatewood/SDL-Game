@@ -35,6 +35,21 @@ void AnimatedSprite::SetAnimTextures(const std::vector<SDL_Texture*>& textures)
 }
 
 
+void AnimatedSprite::Update(float delta_time)
+{
+	current_frame_ += anim_fps_ * delta_time;
+	
+	if (current_frame_ >= anim_textures_.size())
+	{
+		current_frame_ -= anim_textures_.size();
+	}
+
+	// std::cout << anim_textures_.size();
+
+	texture_ = anim_textures_[static_cast<int>(current_frame_)];
+}
+
+
 /* -------------------------------------------------------------------------- */
 void BackgroundSprite::SetTexture(SDL_Texture* texture)
 {
