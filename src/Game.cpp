@@ -26,7 +26,10 @@ bool Game::Init()
         return false;
     }
 
-    window_ = SDL_CreateWindow("SDL Game", 100, 100, SCREEN_WIDTH, SCREEN_HEIGHT, 0);
+    // TODO: Test positioning on dual-monitor PC.
+    // create window at top left corner of screen
+    // 1 px for left border, 32 px for title bar  
+    window_ = SDL_CreateWindow("SDL Game", 1, 32, SCREEN_WIDTH, SCREEN_HEIGHT, 0);
     if (!window_)
     {
         SDL_Log("SDL_CreateWindow() Error: %s", SDL_GetError());

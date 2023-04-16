@@ -26,6 +26,9 @@ public:
 
 	void Draw(SDL_Renderer* renderer);
 
+	const int& get_texture_height() { return tex_height_; }
+	const float& get_scale() { return scale_; }
+
 protected:
 	SDL_Texture* texture_ = nullptr;
 	int tex_width_ = 0;

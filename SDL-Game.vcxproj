@@ -71,8 +71,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>$(SolutionDir)build\$(Platform)\$(Configuration)\</OutDir>
-    <IncludePath>C:\Users\gatew\Projects\SDL-Game\external\SDL2_image\include;C:\Users\gatew\Projects\SDL-Game\external\SDL2\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Users\gatew\Projects\SDL-Game\external\SDL2_image\lib\x64;C:\Users\gatew\Projects\SDL-Game\external\SDL2\lib\x64;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\Users\gatew\Projects\SDL-Game\external\SDL2_ttf\include;C:\Users\gatew\Projects\SDL-Game\external\SDL2_image\include;C:\Users\gatew\Projects\SDL-Game\external\SDL2\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Users\gatew\Projects\SDL-Game\external\SDL2_ttf\lib\x64;C:\Users\gatew\Projects\SDL-Game\external\SDL2_image\lib\x64;C:\Users\gatew\Projects\SDL-Game\external\SDL2\lib\x64;$(LibraryPath)</LibraryPath>
     <IntDir>$(SolutionDir)build\$(Platform)\$(Configuration)\obj\</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -106,7 +106,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <Link>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_ttf.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>Console</SubSystem>
     </Link>
   </ItemDefinitionGroup>

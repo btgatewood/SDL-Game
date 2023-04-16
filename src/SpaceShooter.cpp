@@ -58,6 +58,7 @@ void SpaceShooter::LoadData(SDL_Renderer* renderer)
 	};
 
 	// calculate initial background position
+	// NOTE: Background png is 1080x1920.
 	float x = -(1080 - SCREEN_WIDTH) / 2.0f;  // -(bg_width - 960) / 2 = -60
 	float y = -(1920 - SCREEN_HEIGHT);		  // -(bg_height - 540) = -1380
 	Vector2 position{ x, y };
@@ -84,8 +85,11 @@ void SpaceShooter::LoadData(SDL_Renderer* renderer)
 	// init player ship
 	player_.SetAnimTextures(ship_textures_);
 	player_.SetAnimFPS(10.0f);  // TODO: Double check this.  Tests, tests, tests.
-	player_.SetPosition(Vector2{ SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 });
 	player_.SetScale(1.0f / 8.0f);  // TODO: Use this, check math.
+
+	// position ship at bottom center of screen
+	player_.SetPosition(Vector2{ SCREEN_WIDTH / 2,
+		SCREEN_HEIGHT - (player_.get_texture_height() * player_.get_scale() / 2.0f) });
 }
 
 

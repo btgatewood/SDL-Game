@@ -21,9 +21,11 @@
 // 1080x1920 / 3 == 360x640
 
 // NOTE: 1920x1080 / 2 == 16:9 * 60 == 960x540
+// const int SCREEN_WIDTH = 960;
+// const int SCREEN_HEIGHT = 540;
 
-const int SCREEN_WIDTH = 960;
-const int SCREEN_HEIGHT = 540;
+const int SCREEN_WIDTH = 1024;
+const int SCREEN_HEIGHT = 768;
 
 
 class SpaceShooter
@@ -41,10 +43,10 @@ private:
 
 	SDL_Renderer* renderer_ = nullptr;  // ptr to engine's renderer
 
-	std::unordered_map<std::string, SDL_Texture*> textures_;
-	std::vector<BackgroundSprite> bg_sprites_;
+	std::unordered_map<std::string, SDL_Texture*> textures_;  // list of all dynamically created textures
 
-	std::vector<SDL_Texture*> ship_textures_;
+	std::vector<BackgroundSprite> bg_sprites_;
+		std::vector<SDL_Texture*> ship_textures_;
 
 	AnimatedSprite player_;
 };
