@@ -44,8 +44,6 @@ void AnimatedSprite::Update(float delta_time)
 		current_frame_ -= anim_textures_.size();
 	}
 
-	// std::cout << anim_textures_.size();
-
 	texture_ = anim_textures_[static_cast<int>(current_frame_)];
 }
 

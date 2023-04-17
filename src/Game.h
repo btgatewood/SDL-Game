@@ -1,6 +1,7 @@
 #pragma once
 
 #include <SDL.h>
+#include <SDL_ttf.h>
 
 // #include "Pong.h"
 #include "SpaceShooter.h"
@@ -22,6 +23,8 @@ private:
 	SDL_Renderer* renderer_ = nullptr;
 	bool quit_ = false;
 
-	// Pong pong_;
 	SpaceShooter space_shooter_;
+
+	TTF_Font* vs2022_font_ = nullptr;
+	SDL_Texture* tex_vs2022_font_ = nullptr;
 };
