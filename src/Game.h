@@ -3,7 +3,6 @@
 #include <SDL.h>
 #include <SDL_ttf.h>
 
-// #include "Pong.h"
 #include "SpaceShooter.h"
 
 
@@ -25,6 +24,6 @@ private:
 
 	SpaceShooter space_shooter_;
 
-	TTF_Font* vs2022_font_ = nullptr;
-	SDL_Texture* tex_vs2022_font_ = nullptr;
+	TTF_Font* font_ = nullptr;
+	SDL_Texture* text_ = nullptr;
 };

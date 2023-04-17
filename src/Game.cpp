@@ -22,15 +22,16 @@ const SDL_Color WHITE = { 255, 255, 255, 255 };
 SDL_Texture* get_text_texture(TTF_Font* font, const char* text, 
                               SDL_Renderer* renderer)
 {
-    SDL_Surface* surface;
-    surface = TTF_RenderText_Solid(font, text, WHITE);
+    SDL_Surface* surface = TTF_RenderUTF8_Blended(font, text, WHITE);
+    if (!surface)
+    {
+        SDL_Log("TTF_RenderText_Solid() Error: %s", TTF_GetError());
+    }
 
-    SDL_Texture* texture;
-    texture = SDL_CreateTextureFromSurface(renderer, surface);
-
+    SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surface);
     if (!texture)
     {
-        std::cout << "Failed to create texture." << std::endl;
+        SDL_Log("SDL_CreateTextureFromSurface Error: %s", SDL_GetError());
     }
 
     SDL_FreeSurface(surface);
@@ -44,7 +45,7 @@ bool Game::Init()
     int result = SDL_Init(SDL_INIT_VIDEO);
     if (result != 0)
     {
-        // TODO: Use custom log system?
+        // TODO: Use custom log system.
         SDL_Log("SDL_Init() Error: %s", SDL_GetError());
         return false;
     }
@@ -81,17 +82,15 @@ bool Game::Init()
     }
     else
     {
-        // TODO: Use GetTexture() and delete textures later.
-        // load font and render texture from test string
-        vs2022_font_ = TTF_OpenFont("data/Fonts/CascadiaMono.ttf", 16);
-        tex_vs2022_font_ = get_text_texture(vs2022_font_,
-            "Hello, World!  VS 2022 - Cascadia Mono - 16pt.", renderer_);
+        // load font and render text surface
+        font_ = TTF_OpenFont("data/Fonts/CascadiaMono.ttf", 16);
+        text_ = get_text_texture(font_, "Hello, World!  Cascadia Mono - 16pt.", 
+                                 renderer_);
     }
+               
+    std::cout << "Success! Engine initialized." << std::endl;
 
-    // TODO: Log debug messages to file.
-    // std::cout << "Success! Engine initialized.\n" << std::endl;
-                    
-    space_shooter_.LoadData(renderer_);
+    space_shooter_.LoadData(renderer_);  // initialize the game state
 
     return true;
 }
@@ -158,6 +157,9 @@ void Game::Quit()
 {
     space_shooter_.Quit();
 
+    SDL_DestroyTexture(text_);
+    TTF_CloseFont(font_);
+
     TTF_Quit();
     IMG_Quit();
     SDL_DestroyRenderer(renderer_);
@@ -199,17 +201,14 @@ void Game::Update(float delta_time)
 
 void Game::Render()
 {
-    // SDL_SetRenderDrawColor(renderer_, 0, 0, 0, SDL_ALPHA_OPAQUE);
     SDL_RenderClear(renderer_);  // clear back buffer to current draw color
 
     space_shooter_.Render(renderer_);  // NOTE: Render the scene here!
 
     // draw debug text
-    SDL_Rect dest{ 0, 0, 0, 0 };
-        SDL_QueryTexture(tex_vs2022_font_, nullptr, nullptr, &dest.w, &dest.h);
-    SDL_RenderCopy(renderer_, tex_vs2022_font_, nullptr, &dest);
-
-    // dest.y += 16;  // NOTE: Add to y position for each new line.
+    SDL_Rect dstrect{ 4, 2, 0, 0 };  // x = 4, y = 2
+    SDL_QueryTexture(text_, nullptr, nullptr, &dstrect.w, &dstrect.h);
+    SDL_RenderCopy(renderer_, text_, nullptr, &dstrect);
 
     SDL_RenderPresent(renderer_);
 }

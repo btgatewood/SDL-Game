@@ -75,21 +75,22 @@ void SpaceShooter::LoadData(SDL_Renderer* renderer)
 	}
 
 	// load ship textures
+	std::vector<SDL_Texture*> ship_textures;
 	for (int i = 0; i < 10; ++i)
 	{
 		std::ostringstream oss;
 		oss << "data/Ship_01/Exhaust/Exhaust_1_1_00" << i << ".png";
-		ship_textures_.push_back(GetTexture(oss.str()));  // using GetTexture(filename) to ensure deletion
+		ship_textures.push_back(GetTexture(oss.str()));  // using GetTexture(filename) to ensure deletion
 	}
 
 	// init player ship
-	player_.SetAnimTextures(ship_textures_);
-	player_.SetAnimFPS(10.0f);  // TODO: Double check this.  Tests, tests, tests.
-	player_.SetScale(1.0f / 8.0f);  // TODO: Use this, check math.
-
-	// position ship at bottom center of screen
+	// TODO: Test anim & scaling methods.
+	player_.SetAnimTextures(ship_textures);
+	player_.SetAnimFPS(10.0f);
+	player_.SetScale(1.0f / 8.0f);
+	// set position bottom center of screen
 	player_.SetPosition(Vector2{ SCREEN_WIDTH / 2,
-		SCREEN_HEIGHT - (player_.get_texture_height() * player_.get_scale() / 2.0f) });
+		SCREEN_HEIGHT - (player_.GetHeight() * player_.GetScale() / 2.0f) });
 }
 
 

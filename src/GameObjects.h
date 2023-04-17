@@ -22,12 +22,12 @@ public:
 	void SetTexture(SDL_Texture* texture);
 
 	void SetPosition(const Vector2& pos) { position_ = pos; }
-	void SetScale(const float& scale) { scale_ = scale; }
+	void SetScale(const float& scale)	 { scale_ = scale; }
 
 	void Draw(SDL_Renderer* renderer);
 
-	const int& get_texture_height() { return tex_height_; }
-	const float& get_scale() { return scale_; }
+	const int& GetHeight() const  { return tex_height_; }
+	const float& GetScale() const { return scale_; }
 
 protected:
 	SDL_Texture* texture_ = nullptr;

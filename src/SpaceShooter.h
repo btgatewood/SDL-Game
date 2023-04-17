@@ -43,10 +43,9 @@ private:
 
 	SDL_Renderer* renderer_ = nullptr;  // ptr to engine's renderer
 
-	std::unordered_map<std::string, SDL_Texture*> textures_;  // list of all dynamically created textures
+	typedef std::unordered_map<std::string, SDL_Texture*> TextureMap;
+	TextureMap textures_;  // map of all loaded textures
 
 	std::vector<BackgroundSprite> bg_sprites_;
-		std::vector<SDL_Texture*> ship_textures_;
-
 	AnimatedSprite player_;
 };
