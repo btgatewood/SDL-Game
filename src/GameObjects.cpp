@@ -8,7 +8,8 @@
 void Sprite::SetTexture(SDL_Texture* texture)
 {
 	texture_ = texture;
-	SDL_QueryTexture(texture, nullptr, nullptr, &tex_width_, &tex_height_);
+	// store texture width & height
+	SDL_QueryTexture(texture_, nullptr, nullptr, &tex_width_, &tex_height_);
 }
 
 void Sprite::Draw(SDL_Renderer* renderer)
@@ -52,7 +53,6 @@ void AnimatedSprite::Update(float delta_time)
 void BackgroundSprite::SetTexture(SDL_Texture* texture)
 {
 	texture_ = texture;
-
 	// store texture width & height
 	SDL_QueryTexture(texture_, nullptr, nullptr, &tex_width_, &tex_height_);
 }

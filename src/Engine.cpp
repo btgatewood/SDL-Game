@@ -119,7 +119,7 @@ void Engine::Run()
         update_timer += elapsed_time;
         while (update_timer >= MS_PER_UPDATE)
         {
-            Update(DELTA_TIME);  // convert dt to seconds, pass as float
+            Update(DELTA_TIME);  // convert dt to seconds (fraction), pass as float
             update_timer -= MS_PER_UPDATE;
             ++update_count;
         }
@@ -133,17 +133,16 @@ void Engine::Run()
         }
         else
         {
-            // TODO: What is the benefit of sleeping? 
-            SDL_Delay(MIN_MS_PER_RENDER - render_timer);  // sleep
+            SDL_Delay(MIN_MS_PER_RENDER - render_timer);  // TODO: Why sleep?!
         }
 
         self_timer += elapsed_time;
         if (self_timer > 1000)
         {
-            // print fps data to window title
+            // update fps text
             std::ostringstream oss;
-            oss << render_count << "FPS @ " << update_count << "Hz" << std::endl;
-            SDL_SetWindowTitle(window_, oss.str().c_str());  // convert to const char *
+            oss << render_count << "FPS @ " << update_count << "Hz";
+            text_ = get_text_texture(font_, oss.str().c_str(), renderer_);
 
             update_count = 0;
             render_count = 0;
@@ -187,8 +186,7 @@ void Engine::ProcessEvents()
     }
     else
     {
-        // process keyboard input
-        space_shooter_.ProcessInput(key_states);
+        space_shooter_.ProcessInput(key_states);  // process keyboard input
     }
 }
 
@@ -201,14 +199,14 @@ void Engine::Update(float delta_time)
 
 void Engine::Render()
 {
-    SDL_RenderClear(renderer_);  // clear back buffer to current draw color
+    SDL_RenderClear(renderer_);  // begin draw (clear back buffer to current draw color)
 
-    space_shooter_.Render(renderer_);  // NOTE: Render the scene here!
+    space_shooter_.Render();  // NOTE: Render the scene here!
 
     // draw debug text
-    SDL_Rect dstrect{ 4, 2, 0, 0 };  // x = 4, y = 2
+    SDL_Rect dstrect{ 4, 4, 0, 0 };  // 4 px border padding
     SDL_QueryTexture(text_, nullptr, nullptr, &dstrect.w, &dstrect.h);
     SDL_RenderCopy(renderer_, text_, nullptr, &dstrect);
 
-    SDL_RenderPresent(renderer_);
+    SDL_RenderPresent(renderer_);  // end draw
 }

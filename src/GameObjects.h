@@ -21,13 +21,13 @@ class Sprite
 public:
 	void SetTexture(SDL_Texture* texture);
 
-	void SetPosition(const Vector2& pos) { position_ = pos; }
-	void SetScale(const float& scale)	 { scale_ = scale; }
+	void SetPosition(const Vector2& pos)  { position_ = pos; }
+	void SetScale(const float& scale)	  { scale_ = scale; }
 
 	void Draw(SDL_Renderer* renderer);
 
-	const int& GetHeight() const  { return tex_height_; }
-	const float& GetScale() const { return scale_; }
+	const int& GetHeight() const		  { return tex_height_; }
+	const float& GetScale() const		  { return scale_; }
 
 protected:
 	SDL_Texture* texture_ = nullptr;
@@ -60,7 +60,7 @@ class BackgroundSprite
 // Currently only scrolls down on the y-axis.
 {
 public:
-	void SetTexture(SDL_Texture* texture);
+	void SetTexture(SDL_Texture* texture);  // NOTE:  Same as Sprite class?!
 
 	void SetPosition(const Vector2& pos);  // top left corner
 

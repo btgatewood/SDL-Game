@@ -36,7 +36,7 @@ public:
 
 	void ProcessInput(const Uint8* key_states) {}
 	void Update(float delta_time);
-	void Render(SDL_Renderer* renderer);
+	void Render();
 
 private:
 	SDL_Texture* GetTexture(const std::string& file);

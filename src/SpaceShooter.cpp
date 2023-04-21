@@ -46,6 +46,7 @@ SDL_Texture* SpaceShooter::GetTexture(const std::string& file)
 
 
 void SpaceShooter::LoadData(SDL_Renderer* renderer)
+// NOTE: Loads data and inits game state (i.e. manages resources and game state).
 {
 	renderer_ = renderer;  // save ptr to engine's renderer object
 
@@ -88,7 +89,7 @@ void SpaceShooter::LoadData(SDL_Renderer* renderer)
 	player_.SetAnimTextures(ship_textures);
 	player_.SetAnimFPS(10.0f);
 	player_.SetScale(1.0f / 8.0f);
-	// set position bottom center of screen
+	// set position to bottom center of screen
 	player_.SetPosition(Vector2{ SCREEN_WIDTH / 2,
 		SCREEN_HEIGHT - (player_.GetHeight() * player_.GetScale() / 2.0f) });
 }
@@ -105,11 +106,11 @@ void SpaceShooter::Update(float delta_time)
 }
 
 
-void SpaceShooter::Render(SDL_Renderer* renderer)  // TODO: Remove renderer param?
+void SpaceShooter::Render()
 {
-	for (BackgroundSprite& bg_sprite : bg_sprites_)
+	for (BackgroundSprite& sprite : bg_sprites_)
 	{
-		bg_sprite.Draw(renderer_);  // NOTE: Passing class member, not method arg.
+		sprite.Draw(renderer_);
 	}
 
 	player_.Draw(renderer_);
