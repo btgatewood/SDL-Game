@@ -6,7 +6,7 @@
 #include "SpaceShooter.h"
 
 
-class Game
+class Engine
 {
 public:
 	bool Init();

@@ -111,14 +111,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\Game.cpp" />
+    <ClCompile Include="src\Engine.cpp" />
     <ClCompile Include="src\GameObjects.cpp" />
     <ClCompile Include="src\Main.cpp" />
     <ClCompile Include="src\Pong.cpp" />
     <ClCompile Include="src\SpaceShooter.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\Game.h" />
+    <ClInclude Include="src\Engine.h" />
     <ClInclude Include="src\GameObjects.h" />
     <ClInclude Include="src\Pong.h" />
     <ClInclude Include="src\SpaceShooter.h" />

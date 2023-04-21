@@ -1,14 +1,14 @@
-#include "Game.h"
+#include "Engine.h"
 
 
 int main(int argc, char* argv[])
 {
-	Game game;
-	bool success = game.Init();
+	Engine app;
+	bool success = app.Init();
 	if (success)
 	{
-		game.Run();
+		app.Run();
 	}
-	game.Quit();
+	app.Quit();
 	return 0;
 }

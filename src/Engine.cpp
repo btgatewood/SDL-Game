@@ -4,7 +4,7 @@
 #include <SDL_image.h>
 #include <SDL_ttf.h>
 
-#include "Game.h"
+#include "Engine.h"
 
 
 // engine config
@@ -40,7 +40,7 @@ SDL_Texture* get_text_texture(TTF_Font* font, const char* text,
 }
 
 
-bool Game::Init()
+bool Engine::Init()
 {
     int result = SDL_Init(SDL_INIT_VIDEO);
     if (result != 0)
@@ -96,7 +96,7 @@ bool Game::Init()
 }
 
 
-void Game::Run()
+void Engine::Run()
 {
     Uint64 last_time = SDL_GetTicks64();  // ms since sdl init
 
@@ -104,7 +104,7 @@ void Game::Run()
     Uint64 update_timer = 0;
     Uint64 render_timer = 0;
     Uint64 self_timer = 0;
-
+    
     int update_count = 0;
     int render_count = 0;  // TODO: Calculate and display fps as float.
 
@@ -153,7 +153,7 @@ void Game::Run()
 }
 
 
-void Game::Quit()
+void Engine::Quit()
 {
     space_shooter_.Quit();
 
@@ -168,7 +168,7 @@ void Game::Quit()
 }
 
 
-void Game::ProcessEvents()
+void Engine::ProcessEvents()
 {
     SDL_Event e;
     while (SDL_PollEvent(&e))
@@ -193,13 +193,13 @@ void Game::ProcessEvents()
 }
 
 
-void Game::Update(float delta_time)
+void Engine::Update(float delta_time)
 {
     space_shooter_.Update(delta_time);
 }
 
 
-void Game::Render()
+void Engine::Render()
 {
     SDL_RenderClear(renderer_);  // clear back buffer to current draw color
 
