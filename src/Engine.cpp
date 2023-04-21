@@ -18,11 +18,12 @@ const int MIN_MS_PER_RENDER = 1000 / MAX_RENDERS_PER_SECOND;
 
 
 const SDL_Color WHITE = { 255, 255, 255, 255 };
+const SDL_Color GREEN = { 0, 255, 0, 255 };
 
 SDL_Texture* get_text_texture(TTF_Font* font, const char* text, 
                               SDL_Renderer* renderer)
 {
-    SDL_Surface* surface = TTF_RenderUTF8_Blended(font, text, WHITE);
+    SDL_Surface* surface = TTF_RenderUTF8_Blended(font, text, GREEN);
     if (!surface)
     {
         SDL_Log("TTF_RenderText_Solid() Error: %s", TTF_GetError());

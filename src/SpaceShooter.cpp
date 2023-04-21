@@ -60,8 +60,8 @@ void SpaceShooter::LoadData(SDL_Renderer* renderer)
 
 	// calculate initial background position
 	// NOTE: Background png is 1080x1920.
-	float x = -(1080 - SCREEN_WIDTH) / 2.0f;  // -(bg_width - 960) / 2 = -60
-	float y = -(1920 - SCREEN_HEIGHT);		  // -(bg_height - 540) = -1380
+	float x = -(1080 - SCREEN_WIDTH) / 2.0f;  // 1080 = bg_width
+	float y = -(1920 - SCREEN_HEIGHT);		  // 1920 = bg_height
 	Vector2 position{ x, y };
 
 	// create background sprites
@@ -69,8 +69,8 @@ void SpaceShooter::LoadData(SDL_Renderer* renderer)
 	{
 		BackgroundSprite sprite;
 		sprite.SetTexture(layers[i]);
-		sprite.SetPosition(position);  // TODO: Vector2{ SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 }
-		sprite.SetScrollSpeed(60.0f * (i + 1) * 2);  // 120, 240, 360, 480
+		sprite.SetPosition(position);
+		sprite.SetScrollSpeed(60.0f * (i + 1) * 2);  // speeds = [120, 240, 360, 480]
 		sprite.SetScreenHeight(SCREEN_HEIGHT);
 		bg_sprites_.push_back(sprite);  // add sprite to list
 	}
