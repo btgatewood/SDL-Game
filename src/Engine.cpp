@@ -7,13 +7,14 @@
 #include "Engine.h"
 
 
-// engine config
-const int UPDATES_PER_SECOND = 60;
+// NOTE: Use multiples of 5 to avoid rounding errors.
+const int UPDATES_PER_SECOND = 50;
 const int MS_PER_UPDATE = 1000 / UPDATES_PER_SECOND;
 
-const float DELTA_TIME = MS_PER_UPDATE / 1000.0f;  // == 0.016f @ 60Hz
+const float DELTA_TIME = MS_PER_UPDATE / 1000.0f;  // convert to seconds
 
-const int MAX_RENDERS_PER_SECOND = 120;
+// NOTE: Raise max FPS to test performance & cpu usage.
+const int MAX_RENDERS_PER_SECOND = 100;
 const int MIN_MS_PER_RENDER = 1000 / MAX_RENDERS_PER_SECOND;
 
 
@@ -101,10 +102,9 @@ void Engine::Run()
 {
     Uint64 last_time = SDL_GetTicks64();  // ms since sdl init
 
-    // NOTE: We don't need 64-bit integers for timer variables.
-    Uint64 update_timer = 0;
-    Uint64 render_timer = 0;
-    Uint64 self_timer = 0;
+    int update_timer = 0;
+    int render_timer = 0;
+    int self_timer = 0;
     
     int update_count = 0;
     int render_count = 0;  // TODO: Calculate and display fps as float.
@@ -120,7 +120,7 @@ void Engine::Run()
         update_timer += elapsed_time;
         while (update_timer >= MS_PER_UPDATE)
         {
-            Update(DELTA_TIME);  // convert dt to seconds (fraction), pass as float
+            Update(DELTA_TIME);  // pass delta time in seconds
             update_timer -= MS_PER_UPDATE;
             ++update_count;
         }
@@ -134,12 +134,14 @@ void Engine::Run()
         }
         else
         {
-            SDL_Delay(MIN_MS_PER_RENDER - render_timer);  // TODO: Why sleep?!
+            SDL_Delay(MIN_MS_PER_RENDER - render_timer);  // save cpu power
         }
 
         self_timer += elapsed_time;
         if (self_timer > 1000)
         {
+            SDL_DestroyTexture(text_);  // free previous texture
+
             // update fps text
             std::ostringstream oss;
             oss << render_count << "FPS @ " << update_count << "Hz";
